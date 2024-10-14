@@ -11,11 +11,13 @@ function Calendar({
   className,
   classNames,
   showOutsideDays = true,
-  ...props
+  mode = 'single', // Define mode with a default value if necessary
+  ...props // If other props are used, define them explicitly
 }: CalendarProps) {
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
+      mode={mode} // Ensure mode is passed to the DayPicker if required
       className={cn('p-3', className)}
       classNames={{
         months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
@@ -36,7 +38,7 @@ function Calendar({
         row: 'flex w-full mt-2',
         cell: cn(
           'relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md',
-          props.mode === 'range'
+          mode === 'range'
             ? '[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md'
             : '[&:has([aria-selected])]:rounded-md'
         ),
@@ -58,10 +60,9 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ ...props }) => <ChevronLeftIcon className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ChevronRightIcon className="h-4 w-4" />,
+        IconLeft: () => <ChevronLeftIcon className="h-4 w-4" />,
+        IconRight: () => <ChevronRightIcon className="h-4 w-4" />,
       }}
-      {...props}
     />
   );
 }
